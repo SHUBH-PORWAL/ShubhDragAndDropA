@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Drag and Drop Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .container .items {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container .items li {
+      background-color: #f2f2f2;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: move;
+    }
+
+    .container .items li:hover {
+      background-color: #e0e0e0;
+    }
+
+    .container .items li:active {
+      background-color: #ccc;
+    }
+
+    .drop-container {
+      border: 2px dashed #ccc;
+      padding: 10px;
+      min-height: 100px;
+    }
+
+    .success-message {
+      color: green;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .reset-button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      cursor: pointer;
+      transition-duration: 0.4s;
+      border-radius: 4px;
+    }
+
+    .reset-button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <h2>Drag and Drop Interface</h2>
+
+  <div class="container">
+    <ul class="items" id="container1">
+      <li draggable="true" id="item1">Item 1</li>
+      <li draggable="true" id="item2">Item 2</li>
+      <li draggable="true" id="item3">Item 3</li>
+    </ul>
+    <div class="drop-container" id="container2"></div>
+  </div>
+
+  <div class="success-message" id="successMessage"></div>
+
+  <button class="reset-button" onclick="resetContainers()">Reset</button>
+
+  <script>
+    // Get the containers
+    const container1 = document.getElementById('container1');
+    const container2 = document.getElementById('container2');
+
+    // Get the items
+    const item1 = document.getElementById('item1');
+    const item2 = document.getElementById('item2');
+    const item3 = document.getElementById('item3');
+
+    // Add event listeners for drag and drop
+    item1.addEventListener('dragstart', dragStart);
+    item2.addEventListener('dragstart', dragStart);
+    item3.addEventListener('dragstart', dragStart);
+    container2.addEventListener('dragover', dragOver);
+    container2.addEventListener('drop', drop);
+
+    // Function to handle drag start event
+    function dragStart(event) {
+      event.dataTransfer.setData('text/plain', event.target.id);
+      event.target.style.opacity = '0.4';
+    }
+
+    // Function to handle drag over event
+    function dragOver(event) {
+      event.preventDefault();
+    }
+
+    // Function to handle drop event
+    function drop(event) {
+      event.preventDefault();
+      const itemId = event.dataTransfer.getData('text/plain');
+      const item = document.getElementById(itemId);
+      container2.appendChild(item);
+      item.style.opacity = '1';
+      showSuccessMessage('Item dropped successfully!');
+    }
+
+    // Function to reset the containers
+    function resetContainers() {
+      while (container2.firstChild) {
+        container1.appendChild(container2.firstChild);
+      }
+      hideSuccessMessage();
+    }
+
+    // Function to display success message
+    function showSuccessMessage(message) {
+      const successMessage = document.getElementById('successMessage');
+      successMessage.innerText = message;
+      successMessage.style.display = 'block';
+    }
+
+    // Function to hide success message
+    function hideSuccessMessage() {
+      const successMessage = document.getElementById('successMessage');
+      successMessage.innerText = '';
+      successMessage.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
