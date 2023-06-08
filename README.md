@@ -1,0 +1,2 @@
+# ShubhDragAndDropA
+Save the above code as an HTML file and open it in a web browser. You will see two containers side by side. The first container contains three items that can be dragged and dropped into the second container. When an item is dropped into the second container, a success message will be displayed below. Clicking the "Reset" button will clear the second container and reset the first container to its original state.
